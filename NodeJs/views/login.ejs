@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Quant登录页</title>
+        <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div style="margin:0 auto;float:left;position: absolute;">
+            <h1>Quant登录页</h1>
+            <p><span>用户名：</span><input type="text" id="userName" /></p>
+            <p>
+                <span>密码：</span><input type="password" id="userPwd" />
+            </p>
+            <p><input type="text" id="token" /><input type="text" id="userId" /></p>
+            <p><button id="btnLogin">登录</button><button id="btnValid">验证</button></p>
+    </div>
+        <script>
+            $(function(){
+                $("#btnLogin").click(function() {
+                    $.post("/api/user/login", {
+                        userName: $('#userName').val(),
+                        userPwd: $('#userPwd').val()
+                    }, function(data, status){
+                        console.log(data, status)
+                        $('#token').val(data.result.token)
+                        $('#userId').val(data.result.UserId)
+                    })
+                })
+                $("#btnValid").click(function () {
+                    $.post("/api/user/info", {
+                        id: $('#userId').val(),
+                        access_token: $('#token').val()
+                    }, function (data, status) {
+                        console.log(data, status)
+                    })
+                })
+            })
+        </script>
+    </body>
+</html>
