@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,7 +41,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\AverageE.cs" />
+    <Compile Include="Functions\AverageS.cs" />
+    <Compile Include="Functions\BaseFunction.cs" />
+    <Compile Include="Functions\MaxValue.cs" />
+    <Compile Include="Functions\MinValue.cs" />
+    <Compile Include="Indicators\BaseIndicator.cs" />
+    <Compile Include="Indicators\IndicatorGraph.cs" />
+    <Compile Include="Indicators\KDJ.cs" />
+    <Compile Include="Indicators\MA.cs" />
+    <Compile Include="Indicators\MACD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Models.csproj">
+      <Project>{fca5e410-9f2b-4a74-a7ae-45227d92e64d}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

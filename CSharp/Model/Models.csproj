@@ -40,7 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarData.cs" />
+    <Compile Include="Enums\EnumBarStruct.cs" />
+    <Compile Include="Enums\EnumLineStyle.cs" />
+    <Compile Include="JPR.cs" />
+    <Compile Include="ResData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Users.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

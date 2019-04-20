@@ -26,14 +26,17 @@ function DoAuth(req, res, next) {
         if (token) {
             try {
                 var decoded = jwt.decode(token, secret);
-                console.log(decoded)
                 // 此处可以对token信息进行验证和权限控制
                 next()
             } catch (err) {
                 return next()
             }
         } else {
-            res.json(Msg.Err.NoAccess)
+            if (req.originalUrl.indexOf('/api/') >= 0) {
+                res.json(Msg.Err.NoAccess)
+            } else {
+                res.render('login')
+            }
         }
     }
 }

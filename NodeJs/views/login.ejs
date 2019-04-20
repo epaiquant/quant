@@ -1,40 +1,60 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Quant登录页</title>
-        <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    </head>
-    <body>
-        <div style="margin:0 auto;float:left;position: absolute;">
-            <h1>Quant登录页</h1>
-            <p><span>用户名：</span><input type="text" id="userName" /></p>
-            <p>
-                <span>密码：</span><input type="password" id="userPwd" />
-            </p>
-            <p><input type="text" id="token" /><input type="text" id="userId" /></p>
-            <p><button id="btnLogin">登录</button><button id="btnValid">验证</button></p>
+<%- partial('header') %>
+<div class="sui-row">
+    <div class="span4"></div>
+    <div class="span4" style="border:1px solid #ddd;padding:10px 20px;">
+        <h1 style="color:#ccc; border-bottom:3px solid #ddd;margin-bottom:20px;">用户登录</h1>
+        <form class="sui-form form-horizontal">
+            <div class="control-group">
+                <label for="userName" class="control-label">用户名：</label>
+                <div class="controls">
+                    <input type="text" id="userName" placeholder="用户名">
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="userPwd" class="control-label">密码：</label>
+                <div class="controls">
+                    <input type="password" id="userPwd" placeholder="密码">
+                </div>
+            </div>
+            <!--<div class="control-group">
+                <label class="control-label"></label>
+                <div class="controls">
+                    <label data-toggle="checkbox" class="checkbox-pretty inline">
+                        <input type="checkbox" name="remember-me"><span>记住我</span>
+                    </label>
+                </div>
+            </div>-->
+            <div class="control-group">
+                <label class="control-label"></label>
+                <div class="controls">
+                    <button type="button" class="sui-btn btn-primary" id="btnLogin">登录</button>
+                </div>
+            </div>
+        </form>
     </div>
-        <script>
-            $(function(){
-                $("#btnLogin").click(function() {
-                    $.post("/api/user/login", {
-                        userName: $('#userName').val(),
-                        userPwd: $('#userPwd').val()
-                    }, function(data, status){
-                        console.log(data, status)
-                        $('#token').val(data.result.token)
-                        $('#userId').val(data.result.UserId)
-                    })
-                })
-                $("#btnValid").click(function () {
-                    $.post("/api/user/info", {
-                        id: $('#userId').val(),
-                        access_token: $('#token').val()
-                    }, function (data, status) {
-                        console.log(data, status)
-                    })
-                })
+    <div class="span4"></div>
+</div>
+<script>
+    $(function () {
+        $("#btnLogin").click(function () {
+            $.post("/api/user/login", {
+                userName: $('#userName').val(),
+                userPwd: $('#userPwd').val()
+            }, function (data, status) {
+                console.log(data)
+                window.localStorage.UserId = data.result.UserId
+                window.localStorage.UserName = data.result.UserName
+                window.location.href='/user'
             })
-        </script>
-    </body>
-</html>
+        })
+        $("#btnValid").click(function () {
+            $.post("/api/user/info", {
+                id: $('#userId').val(),
+                access_token: $('#token').val()
+            }, function (data, status) {
+                console.log(data, status)
+            })
+        })
+    })
+</script>
+<%- partial('footer') %>

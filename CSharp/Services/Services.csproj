@@ -30,7 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Resources\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,7 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Commons\Commons.csproj">
+      <Project>{704f62d5-467c-4701-be8e-020984078f74}</Project>
+      <Name>Commons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Models.csproj">
+      <Project>{fca5e410-9f2b-4a74-a7ae-45227d92e64d}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

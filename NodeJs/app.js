@@ -1,6 +1,7 @@
 var createError = require('http-errors')
 var express = require('express')
 var path = require('path')
+var partials = require("express-partials")
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var session = require('express-session');
@@ -10,18 +11,17 @@ var indexRouter = require('./routes/index')
 var userRouter = require('./routes/user')
 var userApi = require('./api/user')
 
-var app = express();
-
-var identityKey = 'quant'
+var app = express()
+app.use(partials())
 
 app.use(session({
-  name: identityKey,
+  name: 'quant',
   secret: 'quantkey',  // 用来对session id相关的cookie进行签名
   store: new FileStore(),  // 本地存储session（文本文件，也可以选择其他store，比如redis的）
   saveUninitialized: false,  // 是否自动保存未初始化的会话，建议false
   resave: false,  // 是否每次都重新保存会话，建议false
   cookie: {
-    maxAge: 10 * 1000  // 有效期，单位是毫秒
+    maxAge: 3600 * 1000  // 有效期，单位是毫秒
   }
 }))
 
@@ -38,7 +38,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/api/user', userApi)
 app.use('/', indexRouter)
 app.use('/user', userRouter)
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

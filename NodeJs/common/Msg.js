@@ -9,7 +9,7 @@ Err.LoginFaild = { false: false, code: 9103, msg: 'Login Failed' }
 Err.NoAccess = { false: false, code: 9104, msg: 'No Access' }
 
 Info.Success = { status: true, code: 1001, msg: 'Success' }
-
+Info.IsLogined = { status: true, code: 1001, msg: 'User is Logined' }
 
 function Success(obj) {
     return { status: true, result: obj}

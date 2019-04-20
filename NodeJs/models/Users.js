@@ -38,7 +38,7 @@ Users.Login = function (userName, userPwd) {
                     if (result.length > 0) {
                         var user = result[0]
                         var token = util.GetJwtToken(user.UserId)
-                        resolve(Msg.Success({ token: token, UserId: user.UserId }))
+                        resolve(Msg.Success({ Token: token, UserId: user.UserId, UserName: user.UserName }))
                     } else {
                         resolve(Msg.Err.LoginFaild)
                     }

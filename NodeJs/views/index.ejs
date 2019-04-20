@@ -1,1 +1,8 @@
-<h1>Hello Quant！</h1>
+<%- partial('header') %>
+<iframe id="iframe1" frameborder="0" width="100%"  src="https://www.epaitech.com"></iframe>
+<script>
+    $(function(){
+        $('#iframe1').height(window.screen.height - 250);
+    })
+</script>
+<%- partial('footer') %>
