@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `quant` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `quant`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
 -- Host: localhost    Database: quant
@@ -29,13 +27,13 @@ CREATE TABLE `strategies` (
   `UserId` int(11) NOT NULL,
   `Name` varchar(45) NOT NULL,
   `Category` varchar(45) DEFAULT NULL,
-  `Code` varchar(45) DEFAULT NULL,
+  `Code` text,
   `StrategyParams` varchar(45) DEFAULT NULL,
   `StrategySettings` varchar(45) DEFAULT NULL,
-  `StrategyWroker` varchar(45) DEFAULT NULL,
+  `StrategyWorker` varchar(45) DEFAULT NULL,
   `RealAccount` varchar(45) DEFAULT NULL,
   `IsAuto` tinyint(4) NOT NULL DEFAULT '0',
-  `CreateTime` varchar(45) DEFAULT 'CURRENT_TIMESTAMP',
+  `CreateTime` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`StrategyId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -46,6 +44,7 @@ CREATE TABLE `strategies` (
 
 LOCK TABLES `strategies` WRITE;
 /*!40000 ALTER TABLE `strategies` DISABLE KEYS */;
+INSERT INTO `strategies` VALUES ('12115d37-80aa-4e98-a37c-a6c970a4057e',100002,'我的趋势策略2','趋势','H4sIAAAAAAAAAwMAAAAAAAAAAAA=','','100,,,10,10,100','','',0,'2019-04-24 08:52:27'),('49e402d8-f514-40e5-8720-f751d7159bf2',100002,'我的新建策略2','震荡','H4sIAAAAAAAAAwMAAAAAAAAAAAA=','','0,,,10,10,100','','',0,'2019-04-24 08:37:06'),('5789755d-5aee-43f6-890c-15bd310393f1',100002,'我的新建策略5','趋势','H4sIAAAAAAAAAysoTcrJTFZIzkksLlYISS0uqeZSAAKuWgDozz/4GQAAAA==','','0,,,10,10,100','','',0,'2019-04-24 08:46:14'),('e4f79fe9-1b56-453c-8f9a-5ed766516db6',100002,'我的趋势策略3','趋势','H4sIAAAAAAAAAwMAAAAAAAAAAAA=','','0,,,10,10,100','','',1,'2019-04-24 08:45:22'),('STY10001',100002,'测试策略1001','趋势','H4sIAAAAAAAAA9VX227bMAz9GgHuS+HYuViPki/AtgwYEOx5UBI1defYgax07d+PlGTHiRP3srTAAMFlKIqkjg5FlQShkpu8Kkngk3RKKCUsJSklkU8oI+mERBmhkdHMUPbZt+QrGP9eP7DRdxLyrob3NCzs2TSavNRWM5flRt9jAmECX2qnl1VVwK+8ZqOfu1NV2FPxvhVvrUgQynLtNgo/jaazb0pojDvG7U4Im6DAGaHhWQBs4uvlr7jag3gxQtYM2Fhc77dboZ5JmJ7OYYiI0AQFBiG40cSETkmaER7jrE0jCswRQW7mrJiPs5hqjLPWGA4tCFBJfbNwhhthrStjT0eERcYV2GdHU7zBwWUCNuBhaiACYdwxhp/cQDTF5NFPzxgzsfa0jwgIl0EJ451QYgtiKbbSECPY11L9QG2NjmGN8WHtjIfdflnkK1hTPUql8rUE0bHhS5nrhVZCy82zVy0f5ArPsIYzk+oGg8/sKfrt0JDXsaZv0x2PQsF3X7cpOjrHVQnZaKv1mojhkKt+TQDlbsFDLb1DgAmwYJK84MohivxhSJg0IjzB0SVSlJiiB0bFhI06Ux1iMJBpUxfjeSXWXKhEaFEbn0C2EClBx45aJ65cSbwtSYhwLs8OA124MWYVpYOlNEUBStgWDgoTXBJNXXHx4HKspgCtH4hotwb+He1PVk2Q8JFNAzKkg7uA5CNj3N5CERZsNDI4ZC5V8IP3cbeazoOJR4PnYi+nhkDjYZrcVUqKFfLNszxeVSVUiymSHO/IhdQ6Lze3C/gUMnaz9c3QqQ6Wy5noTejnVSFP47KiiFE/HPFd0U/Ba3jtHTCID2mhOPJ9K9yJopYd8cVi7OaXvNZyCOIhJ0rqvUIQtdrLM5n1Fq+EthxIn1Zyp213lE89yAehnVcbz7Wgi7U4IyxxAm36LRCcW8qPUQMeDK4YfhDUdpf2MC5t037P94jHKl/Dnywv8/perpsK8mqtgHukWw2Y0kF9oMQ8r+ElEDvuYDuC1tNckMaifZbMRa2v03LyOzysTqlirZtyv1CurmeY1VMz2mprlwLy8IoLguuUtnsmBu4aKuUf+MJb0DsGp+14L1XQIOGlqUaA5Y2YjD4dE/75mHwMVcLrUiX8D2B5DVuuCwv/NFgsHp076p/TX2ihDi/vtyf3oU3q9MbHSXyGjfH/YHyGZTiGW9Fxe7kU8y8EMM0/aA8AAA==','','0,,,10,10,100','','',1,'2019-04-21 19:45:58');
 /*!40000 ALTER TABLE `strategies` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-12 21:52:32
+-- Dump completed on 2019-04-27 21:02:33

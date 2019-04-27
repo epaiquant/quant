@@ -33,7 +33,7 @@ Users.Login = function (userName, userPwd) {
             const sql = "select * from users where UserName = ? and UserPwd = ?"
             mysql.db.query(sql, [userName, userPwd], function (err, result) {
                 if (err) {
-                    reject(err)
+                    reject(Msg.Error(err))
                 } else {
                     if (result.length > 0) {
                         var user = result[0]
@@ -45,7 +45,7 @@ Users.Login = function (userName, userPwd) {
                 }
             })
         }).catch(function (err) {
-            reject(err)
+            reject(Msg.Error(err))
         })
     })
 }

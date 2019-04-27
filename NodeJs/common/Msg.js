@@ -9,12 +9,14 @@ Err.LoginFaild = { false: false, code: 9103, msg: 'Login Failed' }
 Err.NoAccess = { false: false, code: 9104, msg: 'No Access' }
 
 Info.Success = { status: true, code: 1001, msg: 'Success' }
+Info.DBSuccess = { status: true, code: 1001, msg: 'DataBase Success' }
 Info.IsLogined = { status: true, code: 1001, msg: 'User is Logined' }
 
 function Success(obj) {
     return { status: true, result: obj}
 }
 function Error(obj) {
+    console.log(obj)
     return { status: false, result: obj }
 }
 module.exports = { Err, Info, Success, Error }

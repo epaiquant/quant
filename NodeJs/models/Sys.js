@@ -15,13 +15,13 @@ function Log(msg, isError) {
                 const sql = "insert into logs(Category,Message) values(?,?)"
                 mysql.db.query(sql, [msgType, msg], function (err, result) {
                     if (err) {
-                        reject(err)
+                        reject(Msg.Error(err))
                     } else {
                         resolve(result)
                     }
                 })
             }).catch(function (err) {
-                reject(err)
+                reject(Msg.Error(err))
             })
         } else {
             reject(Msg.Err.ParamError)

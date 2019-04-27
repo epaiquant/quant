@@ -1,0 +1,344 @@
+<%- partial('header') %>
+<style>
+    #editor {
+        width: 100%;
+        height: 600px;
+    }
+    .sbbar {
+        width: 100%;
+        height: 26px;
+        background-color: #eee;
+        padding: 12px;
+    }
+    .txtline {
+        border-bottom:3px solid #ccc;
+    }
+</style>
+<div id="app" class="sui-layout">
+    <div class="sidebar">
+        <h3 class="txtline">我的策略<a class="sui-btn btn-small btn-primary" style="margin-left:70px;" href="#" v-on:click="AddStrategy">添加</a></h3>
+        <ul class="sui-nav nav-list">
+        <li class="nav-header">趋势策略</li>
+        <li v-on:click="ChangeStrategy(data.Id, data.Name)" :class="data.Id == curStrategy.Id ? 'active' : ''" v-for="data in treeData.data1"><a>{{ data.Name }}</a></li>
+        <li class="nav-header">震荡策略</li>
+        <li v-on:click="ChangeStrategy(data.Id, data.Name)" :class="data.Id == curStrategy.Id ? 'active' : ''" v-for="data in treeData.data2"><a>{{ data.Name }}</a></li>
+        <li class="nav-header">其他策略</li>
+        <li v-on:click="ChangeStrategy(data.Id, data.Name)" :class="data.Id == curStrategy.Id ? 'active' : ''" v-for="data in treeData.data3"><a>{{ data.Name }}</a></li>
+    </ul></div>
+    <div class="content">
+        <div class="sui-row">
+            <div class="span8">
+                <h3>{{curStrategy.Name}}</h3>
+                <div id="editor"></div>
+            </div>
+            <div class="span2">
+                <h3 class="txtline">策略参数</h3>
+                <form id="form1" class="sui-form form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label">策略名：</label>
+                        <div class="controls">
+                            <input type="text" class="input-medium" v-model="curStrategy.Name">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">策略类型：</label>
+                        <div class="controls">
+                        <span class="sui-dropdown dropdown-bordered select"><span class="dropdown-inner">
+                            <a id="drop12" role="button" data-toggle="dropdown" href="#" class="dropdown-toggle">
+                                    <input id="category" :value="curStrategy.Category" name="category" type="hidden"><i class="caret"></i><span>{{curStrategy.Category}}</span></a>
+                                <ul id="menu12" role="menu" aria-labelledby="drop12" class="sui-dropdown-menu">
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" value="趋势">趋势</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" value="震荡">震荡</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" value="其他">其他</a></li>
+                                </ul>
+                            </span></span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">初始资金：</label>
+                        <div class="controls">
+                            <input type="text" class="input-medium" v-model="curSettings.InitMoney">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">最大多头：</label>
+                        <div class="controls">
+                            <input type="text" class="input-medium" v-model="curSettings.MaxLong">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">最大空头：</label>
+                        <div class="controls">
+                            <input type="text" class="input-medium" v-model="curSettings.MaxShort">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">预载数量：</label>
+                        <div class="controls">
+                            <input type="text" class="input-medium" v-model="curSettings.PreLoadCount">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">云端ID：</label>
+                        <div class="controls">
+                            <input type="text" class="input-medium" v-model="curStrategy.StrategyWorker">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">实盘账户：</label>
+                        <div class="controls">
+                            <input type="text" class="input-medium" v-model="curStrategy.RealAccount">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">策略参数：</label>
+                        <div class="controls">
+                            <textarea rows="3" class="input-block-level"v-model="curStrategy.StrategyParams"></textarea>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">是否自启：</label>
+                        <div class="controls">
+                            <label id="isAuto" data-toggle="radio" :class="curStrategy.IsAuto == 1 ? 'radio-pretty inline checked': 'radio-pretty inline'">
+                                <input type="radio" :checked="curStrategy.IsAuto == 1 ? 'checked':''" name="isAuto"><span>是</span>
+                            </label>
+                            <label data-toggle="radio" :class="curStrategy.IsAuto == 0 ? 'radio-pretty inline checked': 'radio-pretty inline'">
+                                <input type="radio" :checked="curStrategy.IsAuto == 0 ? 'checked':''" name="isAuto"><span>否</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label"></label>
+                        <div class="controls">
+                            <a href="javascript:void(0);" class="sui-btn btn-large btn-danger"v-on:click="DeleteStrategy">删除</a>
+                            <a href="javascript:void(0);" class="sui-btn btn-large btn-primary" v-on:click="SaveStrategy">保存</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="sbbar">
+            <div class="sui-row">
+                <div class="span8">
+                    <form class="sui-form">
+                        合约：<input type="text" class="input-medium" v-model="curSettings.Contract">&nbsp;&nbsp;
+                        周期：
+                        <span class="sui-dropdown dropdown-bordered select"><span class="dropdown-inner">
+                                <a id="drop12" role="button" data-toggle="dropdown" href="#" class="dropdown-toggle">
+                                    <input v-model="curSettings.Cycle" type="hidden"><i class="caret"></i><span>15M</span></a>
+                                <ul id="menu12" role="menu" aria-labelledby="drop12" class="sui-dropdown-menu">
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" value="1M">1M</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" value="3M">3M</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" value="5M">5M</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" value="15M">15M</a></li>
+                                </ul>
+                            </span></span>&nbsp;&nbsp;
+                        测试时间：
+                        <input type="text" class="input-medium input-date" data-rules="required|date" data-toggle="datepicker">
+                        -
+                        <input type="text" class="input-medium input-date"data-rules="required|date" data-toggle="datepicker">
+                    </form>
+                </div>
+                <div class="span2" style="text-align:right;"><a href="javascript:void(0);" class="sui-btn btn-large btn-primary">开始回测</a></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://cdn.bootcss.com/pako/1.0.10/pako.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/ace/1.4.3/ace.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/ace/1.4.3/ext-language_tools.js"></script>
+<script type="text/javascript" src="/js/util.js"></script>
+<script>
+    var vue = new Vue({
+        el: '#app',
+        strategyGroup:[],
+        data: {
+            treeData: {
+                data1: [],
+                data2: [],
+                data3: []
+            },
+            curSettings: {
+                Contract: '',
+                Cycle: '',
+                InitMoney: 0,
+                MaxLong: 10,
+                MaxShort: 10,
+                PreLoadCount: 100
+            },
+            curStrategy: {
+                StrategyId: '',
+                UserId: window.localStorage.UserId,
+                Name: '',
+                Category: '趋势',
+                Code: '',
+                StrategyParams: '',
+                StrategySettings: '',
+                StrategyWorker: '',
+                RealAccount: '',
+                IsAuto: 0
+            }
+        },
+        methods: {
+            AddStrategy: function() {
+                var _this = this
+                $.post('/api/strategy/add', { UserId: window.localStorage.UserId, Name:'我的新建策略' }, function (data, status) {
+                    if (status && data.status) {
+                        _this.curStrategy.StrategyId = data.result.Id
+                        _this.curStrategy.Name = '我的新建策略'
+                        _this.curStrategy.Code = ''
+                        _this.curStrategy.StrategyParams = ''
+                        _this.curStrategy.StrategySettings = ''
+                        _this.curStrategy.StrategyWorker = ''
+                        _this.curStrategy.RealAccount = ''
+                        _this.treeData.data1.push({ Id: data.result.Id, Name: _this.curStrategy.Name })
+                        $.confirm({
+                            body: '添加策略成功！'
+                        })
+                    } else {
+                        $.confirm({
+                            body: '添加策略失败，消息：' + data.msg
+                        })
+                    }
+                })
+            },
+            DeleteStrategy: function() {
+                var _this = this
+                $.ajax({
+                    url: '/api/strategy/del',
+                    type: 'DELETE',
+                    data: {
+                        StrategyId: this.curStrategy.StrategyId,
+                        UserId: window.localStorage.UserId,
+                        access_token: window.localStorage.Token
+                    },
+                    success: function (data) {
+                        if(data.status) {
+                            $.confirm({
+                                body: '删除策略成功！',
+                                hide: function(){
+                                    window.location.reload()
+                                }
+                            })
+                            
+                        } else {
+                            $.confirm({
+                                body: '删除策略失败，消息：' + data.msg
+                            })
+                        }
+                        
+                    },
+                    error: function (xhr, textstatus, thrown) {
+                        $.confirm({
+                            body: '删除策略失败'
+                        })
+                    }
+                }) 
+            },
+            SaveStrategy: function() {
+                console.log('category:'+$('#category').val())
+                console.log('isAuto:'+ $("#isAuto").hasClass('checked'))
+                console.log('editor:'+ encode(editor.getValue()))
+                console.log('SaveStrategy', this.curStrategy, this.curSettings)
+                var strategySettings = this.curSettings.InitMoney + ',' + this.curSettings.Contract+',' + this.curSettings.Cycle
+                    + ',' + this.curSettings.MaxLong + ',' + this.curSettings.MaxShort + ',' + this.curSettings.PreLoadCount;
+                var strategy = {
+                    StrategyId: this.curStrategy.StrategyId,
+                    UserId: window.localStorage.UserId,
+                    Name: this.curStrategy.Name,
+                    Category: $('#category').val(),
+                    Code: encode(editor.getValue()),
+                    StrategyParams: this.curStrategy.StrategyParams,
+                    StrategySettings: strategySettings,
+                    StrategyWorker: this.curStrategy.StrategyWorker,
+                    RealAccount: this.curStrategy.RealAccount,
+                    IsAuto: ($("#isAuto").hasClass('checked') ? 1 : 0),
+                    access_token: window.localStorage.Token
+                }
+                $.ajax({
+                    url: '/api/strategy/update',
+                    type: 'PUT',
+                    data : strategy,
+                    success: function (data) {
+                        console.log(data)
+                        if (data.status) {
+                            $.confirm({
+                                body: '保存策略成功！'
+                            })
+                        } else {
+                            $.confirm({
+                                body: '保存策略失败，消息：' + data.msg
+                            })
+                        }
+                    },
+                    error: function (xhr, textstatus, thrown) {
+                        $.confirm({
+                            body: '保存策略失败'
+                        })
+                    }
+                }) 
+            },
+            ChangeStrategy: function(id, name) {
+                var _this = this
+                $.get("/api/strategy/detail", {
+                    UserId: window.localStorage.UserId,
+                    StrategyId: id,
+                    access_token: window.localStorage.Token
+                }, function(data, status) {
+                    if (status && data.status) {
+                        var sty = data.result
+                        _this.curStrategy.StrategyId = sty.StrategyId
+                        _this.curStrategy.Name = sty.Name
+                        _this.curStrategy.Code = sty.Code
+                        console.log(sty.Code)
+                        if (sty.Code) {
+                            editor.setValue(decode(sty.Code))
+                        } else {
+                            editor.setValue('')
+                        }
+                        _this.curStrategy.StrategyParams = sty.StrategyParams
+                        _this.curStrategy.StrategySettings = sty.StrategySettings
+                        _this.curStrategy.StrategyWorker = sty.StrategyWorker
+                        _this.curStrategy.RealAccount = sty.RealAccount
+                        _this.curStrategy.Category = sty.Category
+                        _this.curStrategy.IsAuto = sty.IsAuto
+                    }
+                   
+                })
+            }
+        }
+    });
+    $(function(){
+        function initData() {
+            $.get("/api/strategy/index", {
+                UserId: window.localStorage.UserId,
+                access_token: window.localStorage.Token
+            }, function (data, status) {
+                if (status && data.status) {
+                    console.log(data.result)
+                    data.result.forEach(ele => {
+                        if(ele.Category === '趋势') {
+                            vue.$data.treeData.data1.push({ Id: ele.StrategyId, Name: ele.Name })
+                        } else if (ele.Category === '震荡') {
+                            vue.$data.treeData.data2.push({ Id: ele.StrategyId, Name: ele.Name })
+                        } else {
+                            vue.$data.treeData.data3.push({ Id: ele.StrategyId, Name: ele.Name })
+                        }
+                    });
+                }
+            });
+        } 
+        initData();
+    })
+
+    var editor = ace.edit('editor');
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/csharp");
+</script>
+<%- partial('footer') %>

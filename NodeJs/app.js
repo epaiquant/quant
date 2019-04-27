@@ -9,7 +9,9 @@ var FileStore = require('session-file-store')(session);
 
 var indexRouter = require('./routes/index')
 var userRouter = require('./routes/user')
+var strategyRouter = require('./routes/strategy')
 var userApi = require('./api/user')
+var strategyApi = require('./api/strategy')
 
 var app = express()
 app.use(partials())
@@ -36,8 +38,10 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/api/user', userApi)
+app.use('/api/strategy', strategyApi)
 app.use('/', indexRouter)
 app.use('/user', userRouter)
+app.use('/strategy', strategyRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

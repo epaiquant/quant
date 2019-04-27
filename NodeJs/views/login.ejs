@@ -37,15 +37,27 @@
 <script>
     $(function () {
         $("#btnLogin").click(function () {
-            $.post("/api/user/login", {
-                userName: $('#userName').val(),
-                userPwd: $('#userPwd').val()
-            }, function (data, status) {
-                console.log(data)
-                window.localStorage.UserId = data.result.UserId
-                window.localStorage.UserName = data.result.UserName
-                window.location.href='/user'
-            })
+            if ($('#userName').val() && $('#userPwd').val()) {
+                $.post("/api/user/login", {
+                    userName: $('#userName').val(),
+                    userPwd: $('#userPwd').val()
+                }, function (data, status) {
+                    if (status && data.status) {
+                        window.localStorage.UserId = data.result.UserId
+                        window.localStorage.UserName = data.result.UserName
+                        window.localStorage.Token = data.result.Token
+                        window.location.href = '/user'
+                    } else {
+                        $.confirm({
+                            body: '用户名或密码错误,登录失败!'
+                        })
+                    }
+                })
+            } else {
+                $.confirm({
+                    body: '用户名和密码不能为空!'
+                })
+            }
         })
         $("#btnValid").click(function () {
             $.post("/api/user/info", {

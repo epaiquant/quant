@@ -14,10 +14,39 @@ namespace EPI.CSharp.Tests
 
         static void Main(string[] args)
         {
-            UserService userService = new UserService();
-            UserInfo = userService.Login("jie", "123456");
+            // 测试获取Web数据
+            //UserService userService = new UserService();
+            //UserInfo = userService.Login("jie", "123456");
+            //var user = userService.GetUserInfo(UserInfo.UserId, UserInfo.Token);
 
-            var user = userService.GetUserInfo(UserInfo.UserId, UserInfo.Token);
+            // 测试ZeroMQ
+            ZMQTest zmqTest = new ZMQTest();
+            zmqTest.StartPubServer();
+            zmqTest.StartSubClient();
+
+            zmqTest.StartPullServer();
+            zmqTest.StartPushClient();
+
+            zmqTest.StartRouterServer();
+            zmqTest.StartDealerWorker("Worker1");
+            
+            zmqTest.StartDealerWorker("Worker2");
+            
+            zmqTest.StartDealerClient();
+
+            while (true)
+            {
+                var msg = Console.ReadLine();
+                if (msg == "Q")
+                {
+                    zmqTest.Stop();
+                    Console.WriteLine("程序已结束.");
+                    Console.Read();
+                    break;
+                }
+                
+            }
+
         }
     }
 }
