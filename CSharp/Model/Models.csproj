@@ -41,11 +41,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BarData.cs" />
+    <Compile Include="Contracts.cs" />
+    <Compile Include="DailyMoneys.cs" />
     <Compile Include="Enums\EnumBarStruct.cs" />
     <Compile Include="Enums\EnumLineStyle.cs" />
+    <Compile Include="Enums\EnumOrderStatus.cs" />
+    <Compile Include="Enums\EnumSide.cs" />
+    <Compile Include="IStrategy.cs" />
     <Compile Include="JPR.cs" />
+    <Compile Include="Messages.cs" />
+    <Compile Include="Orders.cs" />
+    <Compile Include="Positions.cs" />
+    <Compile Include="Reports.cs" />
     <Compile Include="ResData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Strategies.cs" />
+    <Compile Include="TickData.cs" />
+    <Compile Include="Trades.cs" />
     <Compile Include="Users.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

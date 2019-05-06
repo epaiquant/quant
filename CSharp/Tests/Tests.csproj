@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StrategyTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZMQTest.cs" />
@@ -53,6 +54,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Api\Api.csproj">
+      <Project>{86e4f9a4-d170-41ab-9385-1965b09c4e1c}</Project>
+      <Name>Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asteroids\Asteroids.csproj">
+      <Project>{20677463-0008-4077-85d1-f439b7e49dd2}</Project>
+      <Name>Asteroids</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{f1be9ae9-8ec2-4d29-88f7-ada74f20ccba}</Project>
       <Name>DataAccess</Name>

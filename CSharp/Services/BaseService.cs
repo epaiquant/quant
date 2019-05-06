@@ -15,6 +15,19 @@ namespace EPI.CSharp.Services
         private NetHelper _net;     // 网络类
 
         #endregion
+
+        public delegate void OnRtnLogDelegate(string msg, bool isError = false);
+        /// <summary>
+        /// 日志事件
+        /// </summary>
+        public event OnRtnLogDelegate OnRtnLogEvent;
+
+        public delegate void OnRtnErrorDelegate(string title, Exception ex);
+        /// <summary>
+        /// 错误事件
+        /// </summary>
+        public event OnRtnErrorDelegate OnRtnErrorEvent;
+
         /// <summary>
         /// 网络帮助
         /// </summary>
@@ -29,6 +42,27 @@ namespace EPI.CSharp.Services
             else
                 _hostUrl = ConfigurationManager.AppSettings["HostUrl"];
             _net = new NetHelper();
+        }
+
+        /// <summary>
+        /// 日志
+        /// </summary>
+        /// <param name="msg">消息</param>
+        /// <param name="isError">是否错误消息</param>
+        public void Log(string msg, bool isError = false)
+        {
+            if (OnRtnLogEvent != null)
+                OnRtnLogEvent(msg, isError);
+        }
+        /// <summary>
+        /// 日志
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="ex">异常</param>
+        public void Log(string title, Exception ex)
+        {
+            if (OnRtnErrorEvent != null)
+                OnRtnErrorEvent(title, ex);
         }
     }
 }

@@ -42,7 +42,8 @@ namespace EPI.CSharp.DataAccess
             {
                 //数据适配器
                 MySqlDataAdapter sqlda = new MySqlDataAdapter(sql, con);
-                sqlda.SelectCommand.Parameters.AddRange(paras);
+                if (paras != null)
+                    sqlda.SelectCommand.Parameters.AddRange(paras);
                 DataSet ds = new DataSet();
                 sqlda.Fill(ds);
                 return ds;
@@ -61,7 +62,10 @@ namespace EPI.CSharp.DataAccess
             using (MySqlConnection con = new MySqlConnection(ConnStr))
             {
                 MySqlDataAdapter sqlda = new MySqlDataAdapter(sql, con);
-                sqlda.SelectCommand.Parameters.AddRange(paras);
+                if (paras != null)
+                {
+                    sqlda.SelectCommand.Parameters.AddRange(paras);
+                }
                 DataTable dt = new DataTable();
                 sqlda.Fill(dt);
                 return dt;
@@ -83,7 +87,8 @@ namespace EPI.CSharp.DataAccess
                     try
                     {
                         connection.Open();
-                        cmd.Parameters.AddRange(paras);
+                        if (paras != null)
+                            cmd.Parameters.AddRange(paras);
                         object obj = cmd.ExecuteScalar();
                         if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
                         {
@@ -113,7 +118,8 @@ namespace EPI.CSharp.DataAccess
             using (MySqlConnection con = new MySqlConnection(ConnStr))
             {
                 MySqlCommand cmd = new MySqlCommand(sql, con);
-                cmd.Parameters.AddRange(paras);
+                if (paras != null)
+                    cmd.Parameters.AddRange(paras);
                 con.Open();
                 return cmd.ExecuteNonQuery();
             }
@@ -131,7 +137,8 @@ namespace EPI.CSharp.DataAccess
             {
                 MySqlCommand cmd = new MySqlCommand(procname, con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddRange(paras);
+                if (paras != null)
+                    cmd.Parameters.AddRange(paras);
                 con.Open();
                 return cmd.ExecuteNonQuery();
             }
@@ -150,7 +157,8 @@ namespace EPI.CSharp.DataAccess
                 MySqlCommand cmd = new MySqlCommand(procname, con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 MySqlDataAdapter sqlda = new MySqlDataAdapter(procname, con);
-                sqlda.SelectCommand.Parameters.AddRange(paras);
+                if (paras != null)
+                    sqlda.SelectCommand.Parameters.AddRange(paras);
                 DataTable dt = new DataTable();
                 sqlda.Fill(dt);
                 return dt;
@@ -186,7 +194,8 @@ namespace EPI.CSharp.DataAccess
             {
                 MySqlDataAdapter dap = new MySqlDataAdapter(sql, con);
                 DataTable dt = new DataTable();
-                dap.SelectCommand.Parameters.AddRange(paras);
+                if (paras != null)
+                    dap.SelectCommand.Parameters.AddRange(paras);
                 dap.Fill(dt);
                 MySqlParameter ttc = dap.SelectCommand.Parameters["@totalCount"];
                 if (ttc != null)
